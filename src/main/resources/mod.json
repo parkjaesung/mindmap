@@ -1,7 +1,7 @@
 {
 
   // Java verticle
-  "main":"net.slipp.PingVerticle",
+  "main":"net.slipp.MindMapVerticle",
 
   // In this example we also provide various other versions of the main verticle, you can uncomment this and
   // play around:

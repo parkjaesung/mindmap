@@ -1,6 +1,6 @@
 package net.slipp.unit;
 
-import net.slipp.PingVerticle;
+import net.slipp.MindMapVerticle;
 import org.junit.Test;
 
 /*
@@ -24,7 +24,7 @@ public class ExampleUnitTest {
 
   @Test
   public void testVerticle() {
-    PingVerticle vert = new PingVerticle();
+    MindMapVerticle vert = new MindMapVerticle();
 
     // do something with verticle
   }

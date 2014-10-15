@@ -1,4 +1,5 @@
 package net.slipp;
+
 /*
  * Copyright 2013 Red Hat, Inc.
  *
@@ -17,27 +18,15 @@ package net.slipp;
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
 
-import org.vertx.java.core.Handler;
-import org.vertx.java.core.eventbus.Message;
+import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.platform.Verticle;
 
 /*
-This is a simple Java verticle which receives `ping` messages on the event bus and sends back `pong` replies
+ This is a simple Java verticle which receives `ping` messages on the event bus and sends back `pong` replies
  */
-public class PingVerticle extends Verticle {
-
-  public void start() {
-
-
-    vertx.eventBus().registerHandler("ping-address", new Handler<Message<String>>() {
-      @Override
-      public void handle(Message<String> message) {
-        message.reply("pong!");
-        container.logger().info("Sent back pong");
-      }
-    });
-
-    container.logger().info("PingVerticle started");
-
-  }
+public class MindMapVerticle extends Verticle {
+	public void start() {
+		JsonObject appConfig = container.config();
+		container.deployModule("io.vertx~mod-web-server~2.0.0-final", appConfig.getObject("web-server"));
+	}
 }
