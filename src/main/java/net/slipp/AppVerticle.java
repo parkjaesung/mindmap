@@ -1,7 +1,4 @@
-package net.slipp.unit;
-
-import net.slipp.AppVerticle;
-import org.junit.Test;
+package net.slipp;
 
 /*
  * Copyright 2013 Red Hat, Inc.
@@ -20,12 +17,20 @@ import org.junit.Test;
  *
  * @author <a href="http://tfox.org">Tim Fox</a>
  */
-public class ExampleUnitTest {
 
-  @Test
-  public void testVerticle() {
-    AppVerticle vert = new AppVerticle();
+import org.vertx.java.core.json.JsonObject;
+import org.vertx.java.platform.Verticle;
 
-    // do something with verticle
-  }
+/*
+ This is a simple Java verticle which receives `ping` messages on the event bus and sends back `pong` replies
+ */
+public class AppVerticle extends Verticle {
+	public void start() {
+		container.logger().info("AppVerticle deployed");
+		
+		JsonObject appConfig = container.config();
+		container.deployModule("io.vertx~mod-web-server~2.0.0-final", appConfig.getObject("web-server"));
+	
+		container.deployVerticle("net.slipp.MindMapVerticle");
+	}
 }
