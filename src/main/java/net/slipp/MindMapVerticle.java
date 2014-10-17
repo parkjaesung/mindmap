@@ -1,8 +1,8 @@
 package net.slipp;
 
 import org.vertx.java.core.Handler;
-import org.vertx.java.core.eventbus.EventBus;
 import org.vertx.java.core.eventbus.Message;
+import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.platform.Verticle;
 
 public class MindMapVerticle extends Verticle {
@@ -10,14 +10,12 @@ public class MindMapVerticle extends Verticle {
 	public void start() {
 		container.logger().info("MindMap Verticle deployed");
 		
-		final EventBus eventBus = vertx.eventBus();
-		
-		eventBus.registerHandler("mindMaps.list", new Handler<Message<String>>() {
+		vertx.eventBus().registerHandler("mindMaps.list", new Handler<Message<JsonObject>>() {
 			@Override
-			public void handle(Message<String> message) {
+			public void handle(Message<JsonObject> message) {
 				container.logger().info("message body : " + message.body());
 				
-				eventBus.send("mindMaps", "response");
+				message.reply(new JsonObject());
 			}
 		});
 	}
