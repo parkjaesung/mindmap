@@ -11,8 +11,9 @@
     	"port": 8080,
     	"bridge": true,
     	"inbound_permitted": [
-    		{ "address": "mindMaps.list"},
-    		{ "address": "mindMaps.save"}
+    		{ "address": "mindMaps.list" },
+    		{ "address": "mindMaps.save" },
+    		{ "address": "mindMaps.delete" }
     	]
     }
 }

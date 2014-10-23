@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.vertx.java.core.Handler;
+import org.vertx.java.core.eventbus.EventBus;
 import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.json.JsonObject;
 import org.vertx.java.platform.Verticle;
@@ -17,7 +18,8 @@ public class MindMapVerticle extends Verticle {
 	public void start() {
 		container.logger().info("MindMap Verticle deployed");
 		
-		vertx.eventBus().registerHandler("mindMaps.list", new Handler<Message<JsonObject>>() {
+		EventBus eb = vertx.eventBus();
+		eb.registerHandler("mindMaps.list", new Handler<Message<JsonObject>>() {
 			@Override
 			public void handle(Message<JsonObject> message) {
 				container.logger().info("message body : " + message.body());
@@ -28,7 +30,7 @@ public class MindMapVerticle extends Verticle {
 		});
 
 		
-		vertx.eventBus().registerHandler("mindMaps.save", new Handler<Message<JsonObject>>() {
+		eb.registerHandler("mindMaps.save", new Handler<Message<JsonObject>>() {
 			@Override
 			public void handle(Message<JsonObject> message) {
 				JsonObject body = message.body();
@@ -45,6 +47,17 @@ public class MindMapVerticle extends Verticle {
 					Gson gson = new Gson();
 					message.reply(gson.toJson(mindMaps.get(id)));
 				}
+			}
+		});
+		
+		eb.registerHandler("mindMaps.delete", new Handler<Message<JsonObject>>() {
+			@Override
+			public void handle(Message<JsonObject> message) {
+				JsonObject body = message.body();
+				container.logger().info("message body : " + body);
+				Number number = body.getNumber("id");
+				mindMaps.remove(number.doubleValue());
+				message.reply("{}");
 			}
 		});
 	}
